@@ -25,18 +25,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex h-screen`}
       >
         <SidebarProvider>
-          <AppSidebar />
-          <SidebarTrigger />
-          <main className="container mx-auto">
-            {children}
-          </main>
+          <div className="grid grid-cols-[auto,1fr] w-full">
+            <AppSidebar />
+            <main className="flex flex-col h-screen">
+              <header className="p-4 border-b">
+                <SidebarTrigger />
+              </header>
+              {children}
+            </main>
+          </div>
         </SidebarProvider>
-
       </body>
     </html>
   );

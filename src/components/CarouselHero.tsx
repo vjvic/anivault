@@ -1,37 +1,28 @@
 "use client"
-
-import React, { useState, useEffect } from 'react'
 import {
     Carousel,
     CarouselContent,
     CarouselItem,
+    CarouselPrevious,
+    CarouselNext
 } from "@/components/ui/carousel"
 import { Button } from "@/components/ui/button"
+import { ChevronRight, Star, Heart } from "lucide-react"
 import Image from 'next/image';
-import { type CarouselApi } from "@/components/ui/carousel"
-import { ChevronRight, ChevronLeft } from "lucide-react"
 import Autoplay from "embla-carousel-autoplay"
 
 const CarouselHero = () => {
+    const textSample = "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nostrum non blanditiis, nobis possimus quo voluptate. Vel vero nisi mollitia quae?Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed, vero!Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis incidunt doloribus odio facilis eius quae adipisci aut fugit culpa ea."
 
-    const [api, setApi] = useState<CarouselApi>()
-    const [current, setCurrent] = useState(0)
+    const TruncatedText = ({ text, maxLength }: { text: string, maxLength: number }) => {
+        const truncatedText = text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
 
-    useEffect(() => {
-        if (!api) {
-            return
-        }
-
-        setCurrent(api.selectedScrollSnap())
-
-        api.on("select", () => {
-            setCurrent(api.selectedScrollSnap())
-        })
-    }, [api])
+        return <div>{truncatedText}</div>;
+    };
 
 
     return (
-        <Carousel className="w-full h-3/4 flex flex-col items-center" setApi={setApi} plugins={[
+        <Carousel className="w-full flex flex-col items-center" plugins={[
             Autoplay({
                 delay: 4000,
             }),
@@ -39,7 +30,7 @@ const CarouselHero = () => {
             <CarouselContent >
                 {Array.from({ length: 5 }).map((_, index) => (
                     <CarouselItem key={index}>
-                        <div className="p-1">
+                        <div className="relative">
                             <Image
                                 src='https://th.bing.com/th/id/OIP.vA-QlINEnAkOM8GvHM6zzQHaEK?rs=1&pid=ImgDetMain'
                                 alt={`Slide ${index + 1}`}
@@ -47,20 +38,33 @@ const CarouselHero = () => {
                                 width={500}
                                 height={500}
                             />
+                            <div className="absolute inset-0 flex bg-black bg-opacity-60 rounded w-full h-[550px] px-16">
+                                <div className='flex items-center'>
+                                    <div className='max-w-xl'>
+                                        <h3 className='text-4xl font-bold'>Anime Title</h3>
+                                        <p className='text-lg'>(other title)</p>
+                                        <p className='mt-5'>
+                                            <TruncatedText
+                                                text={textSample}
+                                                maxLength={200}
+                                            />
+                                        </p>
+                                        <div className='flex gap-7 items-center my-5'>
+                                            <div className='flex gap-2 items-center'><Star /> <span>9.66</span></div>
+                                            <div className='flex gap-2 items-center'><Heart /> <span>2004034.23</span></div>
+                                        </div>
+                                        <Button className='mt-6'>
+                                            Show details <ChevronRight />
+                                        </Button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </CarouselItem>
                 ))}
             </CarouselContent>
-
-            <div className='flex gap-2'>
-                <Button variant="outline" size="icon" onClick={() => api?.scrollTo(current - 1)}>
-                    <ChevronLeft />
-                </Button>
-                <Button variant="outline" size="icon" onClick={() => api?.scrollTo(current + 1)}>
-                    <ChevronRight />
-                </Button>
-            </div>
-
+            <CarouselPrevious />
+            <CarouselNext />
         </Carousel>
     )
 }

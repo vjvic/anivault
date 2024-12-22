@@ -11,6 +11,7 @@ import {
     SidebarMenuItem,
     SidebarHeader,
 } from "@/components/ui/sidebar"
+import { SearchForm } from './search-form'
 
 // Menu items.
 const items = [
@@ -63,6 +64,7 @@ const AppSidebar = () => {
                         </SidebarMenuButton>
                     </SidebarMenuItem>
                 </SidebarMenu>
+                <SearchForm />
             </SidebarHeader>
             <SidebarContent>
                 <SidebarGroup>
