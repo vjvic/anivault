@@ -1,7 +1,7 @@
 import React from 'react'
 import CarouselHero from '@/components/CarouselHero'
 import CarouselTop from '@/components/CarouselTop'
-import TopCharacter from '@/components/TopCharacter'
+import GridList from '@/components/GridList'
 
 const Home = () => {
   return (
@@ -9,7 +9,7 @@ const Home = () => {
       <CarouselHero />
       <CarouselTop text="Top Anime" />
       <CarouselTop text="Top Movie" />
-      <TopCharacter />
+      <GridList text="Top Character" />
     </div>
   )
 }

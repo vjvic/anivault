@@ -2,11 +2,11 @@ import React from 'react'
 import Image from 'next/image';
 import Link from 'next/link'
 
-const TopCharacter = () => {
+const GridList = ({ text }: { text: string }) => {
     return (
         <div className='container mx-auto mt-10'>
             <div className='flex justify-between items-center mb-3'>
-                <h3 className='text-3xl font-semibold'>Top Character</h3>
+                <h3 className='text-3xl font-semibold'>{text}</h3>
                 <Link href="#">See more</Link>
             </div>
 
@@ -29,4 +29,4 @@ const TopCharacter = () => {
     )
 }
 
-export default TopCharacter
+export default GridList

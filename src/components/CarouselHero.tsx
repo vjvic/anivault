@@ -29,17 +29,17 @@ const CarouselHero = () => {
         ]}>
             <CarouselContent >
                 {Array.from({ length: 5 }).map((_, index) => (
-                    <CarouselItem key={index}>
+                    <CarouselItem key={index} >
                         <div className="relative">
                             <Image
                                 src='https://th.bing.com/th/id/OIP.vA-QlINEnAkOM8GvHM6zzQHaEK?rs=1&pid=ImgDetMain'
                                 alt={`Slide ${index + 1}`}
-                                className="w-full h-[550px] object-cover rounded"
+                                className="w-full h-[50vh] object-cover rounded"
                                 width={500}
                                 height={500}
                             />
-                            <div className="absolute inset-0 flex bg-black bg-opacity-60 rounded w-full h-[550px] px-16">
-                                <div className='flex items-center'>
+                            <div className="absolute inset-0 flex bg-black bg-opacity-60 rounded w-full h-[50vh] px-16">
+                                <div className='flex items-center container mx-auto'>
                                     <div className='max-w-xl'>
                                         <h3 className='text-4xl font-bold'>Anime Title</h3>
                                         <p className='text-lg'>(other title)</p>
