@@ -1,15 +1,15 @@
+import "./globals.css";
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
-import "./globals.css";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import AppSidebar from "@/components/AppSidebar";
+import QueryProvider from "@/providers/QueryProvider";
 
 const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
 });
-
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -23,17 +23,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body
-        className={`${poppins.variable} antialiased flex h-screen`}
-      >
+      <body className={`${poppins.variable} antialiased flex`}>
         <SidebarProvider>
-          <div className="grid grid-cols-[auto,1fr] w-full">
+          <div className="flex w-full min-h-screen">
             <AppSidebar />
-            <main className="flex flex-col h-screen">
-              <header className="p-4 border-b ">
+            <main className="flex flex-col w-full">
+              <header className="p-4 border-b">
                 <SidebarTrigger />
               </header>
-              {children}
+              <div className="flex-grow">
+                <QueryProvider>{children}</QueryProvider>
+              </div>
             </main>
           </div>
         </SidebarProvider>
