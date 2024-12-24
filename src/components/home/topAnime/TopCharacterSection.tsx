@@ -3,16 +3,16 @@ import { useQuery } from "@tanstack/react-query";
 import { AnimeResponse, Characters, fetchTopCharacters } from "@/lib/api";
 import ShowcaseCharacters from "@/components/ShowcaseCharacters";
 
-const TopCharacterShowcase = () => {
+const TopCharacterSection = () => {
   const { data } = useQuery<AnimeResponse<Characters>>({
     queryKey: ["topCharacters"],
     queryFn: fetchTopCharacters,
   });
   return (
-    <div>
+    <section>
       <ShowcaseCharacters text="Top Character" data={data?.data ?? []} />
-    </div>
+    </section>
   );
 };
 
-export default TopCharacterShowcase;
+export default TopCharacterSection;

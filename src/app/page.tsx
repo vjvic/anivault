@@ -1,17 +1,17 @@
 "use client";
 import React from "react";
-import HeroContent from "@/components/home/hero/HeroContent";
-import TopAnimeShowcase from "@/components/home/topAnime/TopAnimeShowcase";
-import TopMovieShowcase from "@/components/home/topAnime/TopMovieShowcase";
-import TopCharacterShowcase from "@/components/home/topAnime/TopCharacterShowcase";
+import HeroSection from "@/components/home/HeroSection";
+import TopAnimeSection from "@/components/home/topAnime/TopAnimeSection";
+import TopMovieSection from "@/components/home/topAnime/TopMovieSection";
+import TopCharacterSection from "@/components/home/topAnime/TopCharacterSection";
 
 const Home = () => {
   return (
     <div>
-      <HeroContent />
-      <TopAnimeShowcase />
-      <TopMovieShowcase />
-      <TopCharacterShowcase />
+      <HeroSection />
+      <TopAnimeSection />
+      <TopMovieSection />
+      <TopCharacterSection />
     </div>
   );
 };

@@ -7,7 +7,7 @@ import { fetchAnimeById, Anime, Genres } from "@/lib/api";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
-const HeroContent = ({ id }: { id: number }) => {
+const HeroSection = ({ id }: { id: number }) => {
   const router = useRouter();
   const { data, isLoading } = useQuery<Anime | null>({
     queryKey: ["animeDetails", id],
@@ -53,7 +53,7 @@ const HeroContent = ({ id }: { id: number }) => {
           })`,
         }}
       >
-        <div className="w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
+        <div className="w-full h-full bg-black bg-opacity-80 flex items-center justify-center">
           <div className="container mx-auto px-4 sm:px-6 md:px-8 grid gap-9 grid-cols-1 md:grid-cols-[400px,1fr] items-center">
             <Image
               src={images.jpg.large_image_url}
@@ -100,4 +100,4 @@ const HeroContent = ({ id }: { id: number }) => {
   );
 };
 
-export default HeroContent;
+export default HeroSection;

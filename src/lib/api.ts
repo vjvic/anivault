@@ -40,6 +40,19 @@ export interface Characters {
   url: string;
 }
 
+export interface CharactersAnimeDetails {
+  character: {
+    images: {
+      jpg: string;
+    };
+  };
+  mal_id: number;
+  name: string;
+  url: string;
+  favorites: number;
+  role: string;
+}
+
 export interface Genres {
   mal_id: number;
   name: string;
@@ -108,7 +121,7 @@ export const fetchAnimeById = async (id: number): Promise<Anime | null> => {
 
 export const fetchCharactersById = async (
   id: number
-): Promise<AnimeResponse<Characters> | null> => {
+): Promise<AnimeResponse<CharactersAnimeDetails> | null> => {
   try {
     const response = await axiosInstance.get(`/anime/${id}/characters`);
     return response.data.data;

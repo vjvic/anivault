@@ -14,7 +14,7 @@ import { AnimeResponse, Anime, fetchTopAnime } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 
-const HeroContent = () => {
+const HeroSection = () => {
   const router = useRouter();
   const { data } = useQuery<AnimeResponse<Anime>>({
     queryKey: ["topAnime"],
@@ -100,4 +100,4 @@ const HeroContent = () => {
   );
 };
 
-export default HeroContent;
+export default HeroSection;
