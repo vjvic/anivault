@@ -9,7 +9,7 @@ export interface Anime {
   score: number;
   favorites: number;
   type: string;
-  episode: string;
+  episodes: string;
   duration: string;
   genres: Genres[];
   images: {
@@ -60,6 +60,18 @@ export interface Genres {
   name: string;
   url: string;
   count: number;
+}
+
+export interface Recommendations {
+  entry: {
+    mal_id: number;
+    title: string;
+    images: {
+      jpg: {
+        large_image_url: string;
+      };
+    };
+  };
 }
 
 const axiosInstance = rateLimit(
@@ -135,7 +147,7 @@ export const fetchCharactersById = async (
 
 export const fetchRecommendations = async (
   id: number
-): Promise<AnimeResponse<Characters> | null> => {
+): Promise<AnimeResponse<Recommendations> | null> => {
   try {
     const response = await axiosInstance.get(`/anime/${id}/recommendations`);
     return response.data;

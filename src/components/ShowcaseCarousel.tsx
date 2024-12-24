@@ -33,11 +33,14 @@ const ShowcaseCarousel = ({ text, data }: { text: string; data: Anime[] }) => {
               key={anime.mal_id}
               className="basis-1/6 flex-shrink-0 p-2"
             >
-              <div onClick={() => handleNavigate(Number(anime.mal_id))}>
+              <div
+                onClick={() => handleNavigate(Number(anime.mal_id))}
+                className="group cursor-pointer"
+              >
                 <Image
                   src={anime.images.jpg.large_image_url}
                   alt={anime.title}
-                  className="w-full object-cover rounded"
+                  className="w-full object-cover rounded transition-transform duration-300 ease-in-out group-hover:scale-105 group-hover:shadow-lg"
                   width={500}
                   height={500}
                 />

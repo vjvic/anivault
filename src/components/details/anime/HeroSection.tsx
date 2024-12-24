@@ -25,7 +25,7 @@ const HeroSection = ({ id }: { id: number }) => {
     synopsis,
     images,
     type,
-    episode,
+    episodes,
     duration,
     favorites,
     score,
@@ -67,7 +67,7 @@ const HeroSection = ({ id }: { id: number }) => {
               </h3>
               <div className="flex gap-3 mb-5 justify-center sm:justify-start flex-wrap">
                 <Badge>{type}</Badge>
-                <Badge>{episode ? episode : "N/A"}</Badge>
+                <Badge>Episodes {episodes ? episodes : "N/A"}</Badge>
                 <Badge>{duration} per ep</Badge>
                 <Badge>{score}</Badge>
                 <Badge>{favorites}</Badge>
