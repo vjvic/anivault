@@ -18,29 +18,26 @@ import {
 import { SearchForm } from "./SearchForm";
 
 const staticItems = [
-  { title: "Home", url: "#" },
-  { title: "Top Anime", url: "#" },
-  { title: "Top Airing", url: "#" },
-  { title: "Top Movies", url: "#" },
-  { title: "Top Upcoming", url: "#" },
-  { title: "Most Popular", url: "#" },
-  { title: "Most Favorites", url: "#" },
+  { title: "Home", url: "/" },
+  { title: "Top Anime", url: "/top" },
+  { title: "Top Movies", url: "/top/movie" },
+  { title: "Top Airing", url: "/top/tv/airing" },
+  { title: "Most Popular", url: "/top/tv/bypopularity" },
+  { title: "Most Favorites", url: "/top/tv/favorite" },
 ];
 
 const AppSidebar = () => {
-  // Fetch genres with React Query
   const {
     data: genreList,
     isLoading,
     isError,
   } = useQuery<AnimeResponse<Genres> | null, Error>({
-    queryKey: ["genres"], // Unique key to identify the query
+    queryKey: ["genres"],
     queryFn: getGenres,
   });
 
   return (
     <Sidebar>
-      {/* Header with logo and search */}
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -55,7 +52,6 @@ const AppSidebar = () => {
       </SidebarHeader>
 
       <SidebarContent>
-        {/* Static Anime Links */}
         <SidebarGroup>
           <SidebarGroupLabel>Anime</SidebarGroupLabel>
           <SidebarGroupContent>
@@ -73,7 +69,6 @@ const AppSidebar = () => {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {/* Genres Section */}
         <SidebarGroup>
           <SidebarGroupLabel>Genres</SidebarGroupLabel>
           <SidebarGroupContent>
