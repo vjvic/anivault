@@ -24,19 +24,19 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={`${poppins.variable} antialiased flex`}>
-        <SidebarProvider>
-          <div className="flex w-full min-h-screen">
-            <AppSidebar />
-            <main className="flex flex-col w-full">
-              <header className="p-4 border-b">
-                <SidebarTrigger />
-              </header>
-              <div className="flex-grow">
-                <QueryProvider>{children}</QueryProvider>
-              </div>
-            </main>
-          </div>
-        </SidebarProvider>
+        <QueryProvider>
+          <SidebarProvider>
+            <div className="flex w-full min-h-screen">
+              <AppSidebar />
+              <main className="flex flex-col w-full">
+                <header className="p-4 border-b">
+                  <SidebarTrigger />
+                </header>
+                <div className="flex-grow">{children}</div>
+              </main>
+            </div>
+          </SidebarProvider>
+        </QueryProvider>
       </body>
     </html>
   );
