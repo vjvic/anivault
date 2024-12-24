@@ -1,13 +1,11 @@
 "use client";
 
 import React from "react";
-import GridList from "@/components/GridList";
 import Image from "next/image";
-import CarouselTop from "@/components/CarouselTop";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Grid, Play } from "lucide-react";
-import { TopResponse, Anime, fetchAnimeById } from "@/lib/api";
+import { Play } from "lucide-react";
+import { Anime, fetchAnimeById, Genres } from "@/lib/api";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
@@ -97,7 +95,7 @@ const AnimeDetails = () => {
               </div>
 
               <div className="flex gap-3 mb-4 justify-center sm:justify-start flex-wrap">
-                {genres.map((genre: any) => (
+                {genres.map((genre: Genres) => (
                   <Badge key={genre.mal_id}>{genre.name}</Badge>
                 ))}
               </div>

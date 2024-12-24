@@ -55,7 +55,7 @@ export interface Genres {
 // Axios Instance with Rate Limiting
 const axiosInstance = rateLimit(
   axios.create({
-    baseURL: process.env.PUBLIC_API_BASE_URL,
+    baseURL: "https://api.jikan.moe/v4",
   }),
   { maxRequests: 1, perMilliseconds: 1000 }
 );

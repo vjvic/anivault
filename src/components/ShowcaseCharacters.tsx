@@ -3,7 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { Characters } from "@/lib/api";
 
-const GridList = ({ text, data }: { text: string; data: Characters[] }) => {
+const ShowcaseCharacters = ({
+  text,
+  data,
+}: {
+  text: string;
+  data: Characters[];
+}) => {
   return (
     <div className="container mx-auto mt-10">
       <div className="flex justify-between items-center mb-3 border-l-4 border-primary pl-2">
@@ -19,7 +25,7 @@ const GridList = ({ text, data }: { text: string; data: Characters[] }) => {
             <Image
               src={chracter.images.jpg.image_url}
               alt={chracter.name}
-              className="w-full h-[400px] object-top object-cover rounded"
+              className="w-full object-top object-cover rounded"
               width={500}
               height={500}
             />
@@ -30,4 +36,4 @@ const GridList = ({ text, data }: { text: string; data: Characters[] }) => {
   );
 };
 
-export default GridList;
+export default ShowcaseCharacters;

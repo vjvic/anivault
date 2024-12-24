@@ -11,7 +11,7 @@ import Link from "next/link";
 import { Anime } from "@/lib/api";
 import { useRouter } from "next/navigation";
 
-const CarouselTop = ({ text, data }: { text: string; data: Anime[] }) => {
+const ShowcaseCarousel = ({ text, data }: { text: string; data: Anime[] }) => {
   const router = useRouter();
   const handleNavigate = (id: number) => {
     router.push(`/details/anime/${id}`);
@@ -52,4 +52,4 @@ const CarouselTop = ({ text, data }: { text: string; data: Anime[] }) => {
   );
 };
 
-export default CarouselTop;
+export default ShowcaseCarousel;
