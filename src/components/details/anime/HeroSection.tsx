@@ -9,12 +9,10 @@ import Image from "next/image";
 
 const HeroSection = ({ id }: { id: number }) => {
   const router = useRouter();
-  const { data, isLoading } = useQuery<Anime | null>({
+  const { data } = useQuery<Anime | null>({
     queryKey: ["animeDetails", id],
     queryFn: () => fetchAnimeById(Number(id)),
   });
-
-  if (isLoading) return <div>Loading...</div>;
 
   const anime = data;
 

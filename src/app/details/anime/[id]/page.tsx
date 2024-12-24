@@ -1,8 +1,7 @@
 "use client";
-import React from "react";
 import { useParams } from "next/navigation";
 import HeroSection from "@/components/details/anime/HeroSection";
-import CharacterList from "@/components/details/characters/CharacterList";
+import CharacterListSection from "@/components/details/characters/CharacterListSection";
 
 const AnimeDetails = () => {
   const { id } = useParams();
@@ -10,7 +9,7 @@ const AnimeDetails = () => {
   return (
     <div>
       <HeroSection id={Number(id)} />
-      <CharacterList id={Number(id)} />
+      <CharacterListSection id={Number(id)} />
     </div>
   );
 };

@@ -43,12 +43,14 @@ export interface Characters {
 export interface CharactersAnimeDetails {
   character: {
     images: {
-      jpg: string;
+      jpg: {
+        image_url: string;
+      };
     };
+    mal_id: number;
+    name: string;
+    url: string;
   };
-  mal_id: number;
-  name: string;
-  url: string;
   favorites: number;
   role: string;
 }
@@ -124,7 +126,7 @@ export const fetchCharactersById = async (
 ): Promise<AnimeResponse<CharactersAnimeDetails> | null> => {
   try {
     const response = await axiosInstance.get(`/anime/${id}/characters`);
-    return response.data.data;
+    return response.data;
   } catch (error) {
     console.error("Error fetching characters by ID:", error);
     return null;
@@ -136,7 +138,7 @@ export const fetchRecommendations = async (
 ): Promise<AnimeResponse<Characters> | null> => {
   try {
     const response = await axiosInstance.get(`/anime/${id}/recommendations`);
-    return response.data.data;
+    return response.data;
   } catch (error) {
     console.error("Error fetching recommendations:", error);
     return null;
