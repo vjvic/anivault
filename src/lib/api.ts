@@ -1,7 +1,6 @@
 import axios from "axios";
 import rateLimit from "axios-rate-limit";
 
-// Anime Interface
 export interface Anime {
   mal_id: number;
   title: string;
@@ -12,10 +11,7 @@ export interface Anime {
   type: string;
   episode: string;
   duration: string;
-  genres: {
-    mal_id: number;
-    name: string;
-  };
+  genres: Genres[];
   images: {
     jpg: {
       large_image_url: string;
@@ -30,7 +26,6 @@ export interface Anime {
   };
 }
 
-// Characters Interface
 export interface Characters {
   mal_id: number;
   name: string;
@@ -52,7 +47,6 @@ export interface Genres {
   count: number;
 }
 
-// Axios Instance with Rate Limiting
 const axiosInstance = rateLimit(
   axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
@@ -60,12 +54,10 @@ const axiosInstance = rateLimit(
   { maxRequests: 1, perMilliseconds: 1000 }
 );
 
-// Generic Response Interface
 export interface AnimeResponse<T> {
   data: T[];
 }
 
-// Generic Fetch Function
 const fetchData = async <T>(
   url: string,
   params?: Record<string, string>
@@ -82,7 +74,6 @@ const fetchData = async <T>(
   }
 };
 
-// Fetch Top Anime
 export const fetchTopAnime = async ({
   type = "",
   filter = "",
@@ -99,62 +90,85 @@ export const fetchTopAnime = async ({
   });
 };
 
-// Fetch Top Characters
 export const fetchTopCharacters = async (): Promise<
   AnimeResponse<Characters>
 > => {
   return fetchData<Characters>(`/top/characters`);
 };
 
-// Fetch Anime by ID
-export const fetchAnimeById = async (id: number): Promise<Anime> => {
-  const response = await axiosInstance.get(`/anime/${id}/full`);
-  return response.data.data;
+export const fetchAnimeById = async (id: number): Promise<Anime | null> => {
+  try {
+    const response = await axiosInstance.get(`/anime/${id}/full`);
+    return response.data.data;
+  } catch (error) {
+    console.error("Error fetching anime by ID:", error);
+    return null;
+  }
 };
 
-// Fetch Characters by Anime ID
 export const fetchCharactersById = async (
   id: number
-): Promise<AnimeResponse<Characters>> => {
-  const response = await axiosInstance.get(`/anime/${id}/characters`);
-  return response.data.data;
+): Promise<AnimeResponse<Characters> | null> => {
+  try {
+    const response = await axiosInstance.get(`/anime/${id}/characters`);
+    return response.data.data;
+  } catch (error) {
+    console.error("Error fetching characters by ID:", error);
+    return null;
+  }
 };
 
-// Fetch Recommendations by Anime ID
 export const fetchRecommendations = async (
   id: number
-): Promise<AnimeResponse<Characters>> => {
-  const response = await axiosInstance.get(`/anime/${id}/recommendations`);
-  return response.data.data;
+): Promise<AnimeResponse<Characters> | null> => {
+  try {
+    const response = await axiosInstance.get(`/anime/${id}/recommendations`);
+    return response.data.data;
+  } catch (error) {
+    console.error("Error fetching recommendations:", error);
+    return null;
+  }
 };
 
-// Fetch Anime by Search Query
 export const fetchAnimeSearch = async ({
   q,
   page = 1,
 }: {
   q: string;
   page?: number;
-}): Promise<AnimeResponse<Anime>> => {
-  const response = await axiosInstance.get(`/anime`, {
-    params: { q, page: page.toString() },
-  });
-  return response.data;
+}): Promise<AnimeResponse<Anime> | null> => {
+  try {
+    const response = await axiosInstance.get(`/anime`, {
+      params: { q, page: page.toString() },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching anime search:", error);
+    return null;
+  }
 };
 
-// Fetch All Anime Genres
-export const getGenres = async (): Promise<AnimeResponse<Genres>> => {
-  const response = await axiosInstance.get(`/genres/anime`);
-  return response.data;
+export const getGenres = async (): Promise<AnimeResponse<Genres> | null> => {
+  try {
+    const response = await axiosInstance.get(`/genres/anime`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching genres:", error);
+    return null;
+  }
 };
 
-// Fetch Anime by Genre
 export const getAnimeByGenres = async (
   id: string,
   page: number
-): Promise<AnimeResponse<Anime>> => {
-  const response = await axiosInstance.get(`/anime`, {
-    params: { genres: id, page: page.toString() },
-  });
-  return response.data;
+): Promise<AnimeResponse<Anime> | null> => {
+  try {
+    const response = await axiosInstance.get(`/anime`, {
+      params: { genres: id, page: page.toString() },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching anime by genres:", error);
+    return null;
+  }
 };
