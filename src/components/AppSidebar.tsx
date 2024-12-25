@@ -1,14 +1,13 @@
 "use client";
-
-import React from "react";
+import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getGenres, AnimeResponse, Genres } from "@/lib/api"; // Import genres API
+import { getGenres, AnimeResponse, Genres } from "@/lib/api";
+import Link from "next/link";
 
 import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
-  SidebarGroupContent,
   SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
@@ -16,6 +15,7 @@ import {
   SidebarHeader,
 } from "@/components/ui/sidebar";
 import { SearchForm } from "./SearchForm";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const staticItems = [
   { title: "Home", url: "/" },
@@ -26,15 +26,23 @@ const staticItems = [
   { title: "Most Favorites", url: "/top/tv/favorite" },
 ];
 
+const ITEMS_PER_PAGE = 15;
+
 const AppSidebar = () => {
   const {
     data: genreList,
     isLoading,
     isError,
-  } = useQuery<AnimeResponse<Genres> | null, Error>({
+  } = useQuery<AnimeResponse<Genres> | null>({
     queryKey: ["genres"],
     queryFn: getGenres,
   });
+
+  const [visibleGenres, setVisibleGenres] = useState(ITEMS_PER_PAGE);
+
+  const handleLoadMore = () => {
+    setVisibleGenres((prev) => prev + ITEMS_PER_PAGE);
+  };
 
   return (
     <Sidebar>
@@ -46,38 +54,59 @@ const AppSidebar = () => {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>Anime</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {staticItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
+          <SidebarMenu>
+            {staticItems.map((item) => (
+              <SidebarMenuItem key={item.title}>
+                <SidebarMenuButton asChild>
+                  <Link href={item.url}>
+                    <span>{item.title}</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            ))}
+          </SidebarMenu>
         </SidebarGroup>
 
         <SidebarGroup>
           <SidebarGroupLabel>Genres</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {isLoading && <div>Loading Genres...</div>}
-              {isError && <div>Failed to load genres.</div>}
-              {genreList?.data.map((genre) => (
-                <SidebarMenuItem key={genre.mal_id}>
-                  <SidebarMenuButton asChild>
-                    <a href={`/genre/${genre.mal_id}`}>
-                      <span>{genre.name}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
+          <SidebarMenu>
+            {isLoading ? (
+              Array(6)
+                .fill(0)
+                .map((_, index) => (
+                  <SidebarMenuItem key={index}>
+                    <Skeleton className="h-4 w-[150px] mb-2" />
+                    <Skeleton className="h-4 w-[100px] mb-2" />
+                    <Skeleton className="h-4 w-[90px]" />
+                  </SidebarMenuItem>
+                ))
+            ) : isError ? (
+              <div className="text-red-500">Failed to load genres.</div>
+            ) : (
+              <>
+                {genreList?.data.slice(0, visibleGenres).map((genre) => (
+                  <SidebarMenuItem key={genre.mal_id}>
+                    <SidebarMenuButton asChild>
+                      <Link href={`/genre/${genre.mal_id}`}>
+                        <span>{genre.name}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+
+                {visibleGenres < (genreList?.data.length || 0) && (
+                  <SidebarMenuItem>
+                    <button
+                      onClick={handleLoadMore}
+                      className="w-full text-center text-primary hover:text-primary-foreground py-2 transition-all duration-200"
+                    >
+                      Load More
+                    </button>
+                  </SidebarMenuItem>
+                )}
+              </>
+            )}
+          </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
     </Sidebar>

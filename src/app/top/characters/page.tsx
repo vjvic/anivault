@@ -2,11 +2,12 @@
 
 import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { fetchTopCharacters } from "@/lib/api";
+import { AnimeResponse, Characters, fetchTopCharacters } from "@/lib/api";
 import PageContainer from "@/components/PageContainer";
 import CharacterGrid from "@/components/CharacterGrid";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import GridLoading from "@/components/GridLoading";
 
 const CharactersPage = () => {
   const [page, setPage] = useState(1);
@@ -16,7 +17,7 @@ const CharactersPage = () => {
     isLoading,
     isError,
     isFetching,
-  } = useQuery({
+  } = useQuery<AnimeResponse<Characters> | null>({
     queryKey: ["topCharacters", page],
     queryFn: () => fetchTopCharacters({ page }),
     keepPreviousData: true,
@@ -32,13 +33,8 @@ const CharactersPage = () => {
     setPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (isError) {
-    return <div>Failed to load top characters.</div>;
-  }
+  if (isLoading) return <GridLoading />;
+  if (isError) return <div>Error fetching characters</div>;
 
   return (
     <PageContainer>

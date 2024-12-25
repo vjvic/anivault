@@ -6,7 +6,6 @@ body {
   font-family: var(--font-poppins), sans-serif;
 }
 
-
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -64,7 +63,6 @@ body {
   }
 }
 
-
 @layer base {
   * {
     @apply border-border;
@@ -72,4 +70,25 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.line-clamp-4,
+.line-clamp-5 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-4 {
+  -webkit-line-clamp: 4;
+}
+
+.line-clamp-5 {
+  -webkit-line-clamp: 5;
+}
+
+.badge {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

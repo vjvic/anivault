@@ -8,6 +8,7 @@ import AnimeGrid from "@/components/AnimeGrid";
 import PageContainer from "@/components/PageContainer";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import GridSkeleton from "@/components/GridLoading";
 
 const GenrePage = () => {
   const { id } = useParams();
@@ -33,13 +34,8 @@ const GenrePage = () => {
     setPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
-  if (isLoading) {
-    return <div>Loading anime...</div>;
-  }
-
-  if (isError) {
-    return <div>Error fetching anime by genre.</div>;
-  }
+  if (isLoading) return <GridSkeleton />;
+  if (isError) return <div>Error fetching anime by genre.</div>;
 
   return (
     <PageContainer>

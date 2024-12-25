@@ -8,6 +8,7 @@ import AnimeGrid from "@/components/AnimeGrid";
 import PageContainer from "@/components/PageContainer";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import GridSkeleton from "@/components/GridLoading";
 
 type AnimeSearchQueryType =
   | "tv"
@@ -53,17 +54,8 @@ const TopCategoryPage = ({ params }: { params: { segments?: string[] } }) => {
     setPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (isError) {
-    return (
-      <div>
-        Failed to load top {type} - {filter}.
-      </div>
-    );
-  }
+  if (isLoading) return <GridSkeleton />;
+  if (isError) return <div>Error fetching anime</div>;
 
   return (
     <PageContainer>
@@ -72,7 +64,6 @@ const TopCategoryPage = ({ params }: { params: { segments?: string[] } }) => {
       </h1>
       <AnimeGrid animes={animes} />
 
-      {/* Pagination Controls */}
       <div className="flex justify-center items-center gap-4 mt-6">
         <Button disabled={page === 1} onClick={handlePrevPage}>
           <ChevronLeft />

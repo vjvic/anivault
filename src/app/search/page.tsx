@@ -8,6 +8,7 @@ import AnimeGrid from "@/components/AnimeGrid";
 import PageContainer from "@/components/PageContainer";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import GridLoading from "@/components/GridLoading";
 
 const SearchPage = () => {
   const searchParams = useSearchParams();
@@ -34,21 +35,18 @@ const SearchPage = () => {
     setPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
-  console.log(animes);
-
   useEffect(() => {
     setPage(1);
   }, [query]);
+
+  if (isLoading) return <GridLoading />;
+  if (isError) return <div>Error fetching anime</div>;
 
   return (
     <PageContainer>
       <h1 className="text-2xl font-semibold mb-4">
         Search Results for "{query}"
       </h1>
-
-      {isLoading && <div className="mt-4">Loading...</div>}
-
-      {isError && <div className="mt-4">Failed to fetch data!</div>}
 
       {animes?.data.length === 0 && !isLoading && (
         <div className="mt-4">No results found.</div>

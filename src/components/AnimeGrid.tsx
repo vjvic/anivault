@@ -11,7 +11,7 @@ const AnimeGrid = ({ animes }: { animes: AnimeResponse<Anime> | null }) => {
   };
 
   return (
-    <div className="grid gap-4 grid-cols-5">
+    <div className="grid gap-4 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
       {animes?.data.map((anime) => (
         <div
           key={anime.mal_id}

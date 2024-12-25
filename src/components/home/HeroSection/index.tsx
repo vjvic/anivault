@@ -13,10 +13,11 @@ import Autoplay from "embla-carousel-autoplay";
 import { AnimeResponse, Anime, fetchTopAnime } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import HeroLoading from "@/components/HeroLoading";
 
 const HeroSection = () => {
   const router = useRouter();
-  const { data } = useQuery<AnimeResponse<Anime>>({
+  const { data, isLoading } = useQuery<AnimeResponse<Anime>>({
     queryKey: ["topAnime"],
     queryFn: () => fetchTopAnime({ type: "tv", filter: "favorite", page: 1 }),
   });
@@ -33,6 +34,8 @@ const HeroSection = () => {
 
     return <div>{truncatedText}</div>;
   };
+
+  if (isLoading) return <HeroLoading />;
 
   const handleNavigate = (id: number) => {
     router.push(`/details/anime/${id}`);
@@ -54,22 +57,24 @@ const HeroSection = () => {
               <Image
                 src={anime.trailer.images.large_image_url}
                 alt={anime.title}
-                className="w-full h-[50vh] object-cover object-center  rounded"
+                className="w-full h-[100vh] lg:h-[50vh] object-cover object-center rounded"
                 width={5000}
                 height={5000}
                 quality={100}
               />
-              <div className="absolute inset-0 flex bg-black bg-opacity-60 rounded w-full h-[50vh] px-16">
+              <div className="absolute inset-0 flex bg-black bg-opacity-60 rounded w-full h-[100vh] lg:h-[50vh]  px-4 md:px-16">
                 <div className="flex items-center container mx-auto">
-                  <div className="max-w-xl">
-                    <div className="bg-primary text-primary-foreground w-[250px] text-center py-3 rounded mb-5">
+                  <div className="max-w-xl w-full">
+                    <div className="bg-primary text-primary-foreground w-[160px] text-center py-3 px-2 rounded mb-5 text-xs">
                       #{index + 1} Most Favorite Anime
                     </div>
-                    <h3 className="text-4xl font-bold">{anime.title}</h3>
-                    <p className="text-lg font-normal">
+                    <h3 className="text-2xl md:text-4xl font-bold text-white">
+                      {anime.title}
+                    </h3>
+                    <p className="text-base md:text-lg font-normal text-white">
                       ({anime.title_japanese})
                     </p>
-                    <p className="mt-5">
+                    <p className="mt-5 text-white">
                       <TruncatedText text={anime.synopsis} maxLength={200} />
                     </p>
                     <div className="flex gap-7 items-center my-5">
@@ -82,7 +87,7 @@ const HeroSection = () => {
                     </div>
                     <Button
                       className="mt-6"
-                      size="lg"
+                      size="sm"
                       onClick={() => handleNavigate(Number(anime.mal_id))}
                     >
                       Show details <ChevronRight />
