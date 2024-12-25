@@ -11,7 +11,11 @@ const TopMovieSection = () => {
 
   return (
     <section>
-      <ShowcaseCarousel text="Top Movie" data={data?.data ?? []} />
+      <ShowcaseCarousel
+        text="Top Movie"
+        data={data?.data ?? []}
+        link="/movie"
+      />
     </section>
   );
 };

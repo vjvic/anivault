@@ -4,13 +4,13 @@ import { AnimeResponse, Characters, fetchTopCharacters } from "@/lib/api";
 import ShowcaseCharacters from "@/components/ShowcaseCharacters";
 
 const TopCharacterSection = () => {
-  const { data } = useQuery<AnimeResponse<Characters>>({
+  const { data: characters } = useQuery<AnimeResponse<Characters>>({
     queryKey: ["topCharacters"],
     queryFn: fetchTopCharacters,
   });
   return (
     <section>
-      <ShowcaseCharacters text="Top Character" data={data?.data ?? []} />
+      <ShowcaseCharacters text="Top Character" characters={characters} />
     </section>
   );
 };

@@ -11,7 +11,7 @@ const TopAnimeSection = () => {
 
   return (
     <section>
-      <ShowcaseCarousel text="Top Anime" data={data?.data ?? []} />
+      <ShowcaseCarousel text="Top Anime" data={data?.data ?? []} link="/" />
     </section>
   );
 };

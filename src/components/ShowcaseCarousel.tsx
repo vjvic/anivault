@@ -11,7 +11,15 @@ import Link from "next/link";
 import { Anime } from "@/lib/api";
 import { useRouter } from "next/navigation";
 
-const ShowcaseCarousel = ({ text, data }: { text: string; data: Anime[] }) => {
+const ShowcaseCarousel = ({
+  text,
+  data,
+  link,
+}: {
+  text: string;
+  data: Anime[];
+  link: string;
+}) => {
   const router = useRouter();
   const handleNavigate = (id: number) => {
     router.push(`/details/anime/${id}`);
@@ -21,7 +29,7 @@ const ShowcaseCarousel = ({ text, data }: { text: string; data: Anime[] }) => {
     <div className="container mx-auto mt-10">
       <div className="flex justify-between items-center mb-3 border-l-4 border-primary pl-2">
         <h3 className="text-3xl font-semibold">{text}</h3>
-        <Link href="#" className="text-primary">
+        <Link href={`/top${link}`} className="text-primary">
           View More
         </Link>
       </div>
@@ -35,15 +43,21 @@ const ShowcaseCarousel = ({ text, data }: { text: string; data: Anime[] }) => {
             >
               <div
                 onClick={() => handleNavigate(Number(anime.mal_id))}
-                className="group cursor-pointer"
+                className="group cursor-pointer relative overflow-hidden rounded"
               >
                 <Image
                   src={anime.images.jpg.large_image_url}
                   alt={anime.title}
-                  className="w-full object-cover rounded transition-transform duration-300 ease-in-out group-hover:scale-105 group-hover:shadow-lg"
+                  className="w-full object-top object-cover rounded transition-transform duration-300 ease-in-out group-hover:scale-105 group-hover:shadow-lg"
                   width={500}
                   height={500}
                 />
+
+                <div className="absolute px-2 text-center inset-0 bg-black bg-opacity-60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out flex items-center justify-center">
+                  <span className="text-white font-semibold text-lg">
+                    {anime.title}
+                  </span>
+                </div>
               </div>
             </CarouselItem>
           ))}

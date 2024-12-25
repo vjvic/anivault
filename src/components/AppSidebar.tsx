@@ -39,15 +39,7 @@ const AppSidebar = () => {
   return (
     <Sidebar>
       <SidebarHeader>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton asChild>
-              <a href="#" className="font-bold text-[26px] text-primary">
-                <span>AniVault</span>
-              </a>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
+        <h1 className="text-2xl font-bold text-primary">AniVault</h1>
         <SearchForm />
       </SidebarHeader>
 

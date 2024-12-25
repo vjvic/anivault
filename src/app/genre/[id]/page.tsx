@@ -2,14 +2,19 @@
 
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getAnimeByGenres } from "@/lib/api";
-import Image from "next/image";
+import { AnimeResponse, getAnimeByGenres, Anime } from "@/lib/api";
 import { useParams } from "next/navigation";
+import AnimeGrid from "@/components/AnimeGrid";
+import PageContainer from "@/components/PageContainer";
 
 const GenrePage = () => {
   const { id } = useParams();
 
-  const { data, isLoading, isError } = useQuery({
+  const {
+    data: animes,
+    isLoading,
+    isError,
+  } = useQuery<AnimeResponse<Anime> | null>({
     queryKey: ["animeByGenre", id],
     queryFn: () => getAnimeByGenres(id as string, 1),
     enabled: !!id,
@@ -24,27 +29,10 @@ const GenrePage = () => {
   }
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-semibold">Anime in this Genre</h1>
-      {data?.data && data.data.length > 0 ? (
-        <div className="grid gap-4 grid-cols-4">
-          {data.data.map((anime) => (
-            <div key={anime.mal_id}>
-              <Image
-                src={anime.images.jpg.large_image_url}
-                alt={anime.title}
-                className="w-full h-auto object-cover rounded"
-                width={500}
-                height={500}
-              />
-              <p className="mt-2">{anime.title}</p>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div>No anime found for this genre.</div>
-      )}
-    </div>
+    <PageContainer>
+      <h1 className="text-2xl font-semibold mb-4">Anime in this Genre</h1>
+      <AnimeGrid animes={animes} />
+    </PageContainer>
   );
 };
 

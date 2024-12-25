@@ -38,7 +38,6 @@ const CharacterListSection = ({ id }: { id: number }) => {
               key={character.character.mal_id}
               className="group relative cursor-pointer overflow-hidden rounded"
             >
-              {/* Image */}
               <Image
                 src={character.character.images.jpg.image_url}
                 alt={character.character.name}
@@ -46,8 +45,6 @@ const CharacterListSection = ({ id }: { id: number }) => {
                 width={500}
                 height={500}
               />
-
-              {/* Overlay */}
               <div className="absolute px-2 text-center inset-0 bg-black bg-opacity-60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out flex items-center justify-center">
                 <span className="text-white font-semibold text-lg">
                   {character.character.name}
