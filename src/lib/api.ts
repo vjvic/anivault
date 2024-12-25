@@ -83,6 +83,10 @@ const axiosInstance = rateLimit(
 
 export interface AnimeResponse<T> {
   data: T[];
+  pagination: {
+    current_page: number;
+    has_next_page: boolean;
+  };
 }
 
 const fetchData = async <T>(
@@ -117,10 +121,12 @@ export const fetchTopAnime = async ({
   });
 };
 
-export const fetchTopCharacters = async (): Promise<
-  AnimeResponse<Characters>
-> => {
-  return fetchData<Characters>(`/top/characters`);
+export const fetchTopCharacters = async ({
+  page = 1,
+}: {
+  page: number;
+}): Promise<AnimeResponse<Characters>> => {
+  return fetchData<Characters>("/top/characters", { page: page.toString() });
 };
 
 export const fetchAnimeById = async (id: number): Promise<Anime | null> => {

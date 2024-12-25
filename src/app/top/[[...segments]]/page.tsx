@@ -1,13 +1,14 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchTopAnime } from "@/lib/api";
 import { AnimeResponse, Anime } from "@/lib/api";
 import AnimeGrid from "@/components/AnimeGrid";
 import PageContainer from "@/components/PageContainer";
+import { Button } from "@/components/ui/button";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
-// Define types for query parameters
 type AnimeSearchQueryType =
   | "tv"
   | "movie"
@@ -22,8 +23,9 @@ type AnimeSearchQueryType =
 type TopAnimeFilter = "airing" | "upcoming" | "bypopularity" | "favorite";
 
 const TopCategoryPage = ({ params }: { params: { segments?: string[] } }) => {
-  const [type, filter] = params.segments || [];
+  const [page, setPage] = useState(1);
 
+  const [type, filter] = params.segments || [];
   const animeType = (type || "") as AnimeSearchQueryType;
   const animeFilter = (filter || "") as TopAnimeFilter;
 
@@ -31,15 +33,25 @@ const TopCategoryPage = ({ params }: { params: { segments?: string[] } }) => {
     data: animes,
     isLoading,
     isError,
+    isFetching,
   } = useQuery<AnimeResponse<Anime>>({
-    queryKey: ["top", animeType, animeFilter],
+    queryKey: ["top", animeType, animeFilter, page],
     queryFn: () =>
       fetchTopAnime({
         type: animeType,
         filter: animeFilter,
-        page: 1,
+        page: page,
       }),
+    keepPreviousData: true,
   });
+
+  const handleNextPage = () => {
+    setPage((prevPage) => prevPage + 1);
+  };
+
+  const handlePrevPage = () => {
+    setPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -55,8 +67,26 @@ const TopCategoryPage = ({ params }: { params: { segments?: string[] } }) => {
 
   return (
     <PageContainer>
-      <h1 className="text-2xl font-semibold mb-4">Top</h1>
+      <h1 className="text-2xl font-semibold mb-4">
+        Top {animeType} - {animeFilter}
+      </h1>
       <AnimeGrid animes={animes} />
+
+      {/* Pagination Controls */}
+      <div className="flex justify-center items-center gap-4 mt-6">
+        <Button disabled={page === 1} onClick={handlePrevPage}>
+          <ChevronLeft />
+        </Button>
+        <span>Page {page}</span>
+        <Button
+          disabled={!animes?.pagination.has_next_page}
+          onClick={handleNextPage}
+        >
+          <ChevronRight />
+        </Button>
+      </div>
+
+      {isFetching && <div>Loading more...</div>}
     </PageContainer>
   );
 };
