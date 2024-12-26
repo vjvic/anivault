@@ -18,7 +18,7 @@ const TopMovieSection = () => {
   return (
     <section>
       <ShowcaseCarousel
-        text="Top Movie"
+        text="Top Movies"
         data={data?.data ?? []}
         link="/movie"
       />

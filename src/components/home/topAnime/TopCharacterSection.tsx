@@ -21,7 +21,7 @@ const TopCharacterSection = () => {
 
   return (
     <section>
-      <ShowcaseCharacters text="Top Character" characters={characters} />
+      <ShowcaseCharacters text="Top Characters" characters={characters} />
     </section>
   );
 };

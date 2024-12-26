@@ -9,7 +9,7 @@ const CharacterGrid = ({
 }) => {
   return (
     <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
-      {characters?.data.map((character) => (
+      {characters?.data.slice(0, 24).map((character) => (
         <div
           key={character.mal_id}
           className="group relative cursor-pointer overflow-hidden rounded"

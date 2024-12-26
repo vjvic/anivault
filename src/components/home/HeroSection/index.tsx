@@ -1,4 +1,5 @@
 "use client";
+
 import {
   Carousel,
   CarouselContent,
@@ -58,9 +59,8 @@ const HeroSection = () => {
                 src={anime.trailer.images.large_image_url}
                 alt={anime.title}
                 className="w-full h-[100vh] lg:h-[50vh] object-cover object-center rounded"
-                width={5000}
-                height={5000}
-                quality={100}
+                width={500}
+                height={500}
               />
               <div className="absolute inset-0 flex bg-black bg-opacity-60 rounded w-full h-[100vh] lg:h-[50vh]  px-4 md:px-16">
                 <div className="flex items-center container mx-auto">
@@ -68,13 +68,13 @@ const HeroSection = () => {
                     <div className="bg-primary text-primary-foreground w-[160px] text-center py-3 px-2 rounded mb-5 text-xs">
                       #{index + 1} Most Favorite Anime
                     </div>
-                    <h3 className="text-2xl md:text-4xl font-bold text-white">
+                    <h3 className="text-2xl lg:text-4xl font-bold text-white">
                       {anime.title}
                     </h3>
-                    <p className="text-base md:text-lg font-normal text-white">
+                    <p className="text-xs lg:text-lg font-normal text-white">
                       ({anime.title_japanese})
                     </p>
-                    <p className="mt-5 text-white">
+                    <p className="mt-5 text-white text-sm lg:text-base">
                       <TruncatedText text={anime.synopsis} maxLength={200} />
                     </p>
                     <div className="flex gap-7 items-center my-5">
@@ -88,7 +88,7 @@ const HeroSection = () => {
                     <Button
                       className="mt-6"
                       size="sm"
-                      onClick={() => handleNavigate(Number(anime.mal_id))}
+                      onClick={() => handleNavigate(anime.mal_id)}
                     >
                       Show details <ChevronRight />
                     </Button>
