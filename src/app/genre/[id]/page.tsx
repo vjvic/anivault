@@ -1,18 +1,24 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { AnimeResponse, getAnimeByGenres, Anime } from "@/lib/api";
-import { useParams } from "next/navigation";
+import { getAnimeByGenres, AnimeResponse, Anime, getGenres } from "@/lib/api";
 import AnimeGrid from "@/components/AnimeGrid";
 import PageContainer from "@/components/PageContainer";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import GridSkeleton from "@/components/GridLoading";
+import GridLoading from "@/components/GridLoading";
+import { useParams } from "next/navigation";
 
 const GenrePage = () => {
   const { id } = useParams();
   const [page, setPage] = useState(1);
+  const [genreName, setGenreName] = useState<string>("Anime");
+
+  const { data: genresData } = useQuery({
+    queryKey: ["genres"],
+    queryFn: getGenres,
+  });
 
   const {
     data: animes,
@@ -26,22 +32,23 @@ const GenrePage = () => {
     keepPreviousData: true,
   });
 
-  const handleNextPage = () => {
-    setPage((prevPage) => prevPage + 1);
-  };
+  useEffect(() => {
+    if (genresData) {
+      const genre = genresData?.data.find((g) => g.mal_id === Number(id));
+      setGenreName(genre?.name || "Anime");
+    }
+  }, [id, genresData]);
 
-  const handlePrevPage = () => {
-    setPage((prevPage) => Math.max(prevPage - 1, 1));
-  };
+  const handleNextPage = () => setPage((prevPage) => prevPage + 1);
+  const handlePrevPage = () => setPage((prevPage) => Math.max(prevPage - 1, 1));
 
-  if (isLoading) return <GridSkeleton />;
+  if (isLoading) return <GridLoading />;
   if (isError) return <div>Error fetching anime by genre.</div>;
 
   return (
     <PageContainer>
-      <h1 className="text-2xl font-semibold mb-4">Anime in this Genre</h1>
+      <h1 className="text-2xl font-semibold mb-4">{genreName} Anime</h1>
       <AnimeGrid animes={animes} />
-
       <div className="flex justify-center items-center gap-4 mt-6">
         <Button disabled={page === 1} onClick={handlePrevPage}>
           <ChevronLeft />
@@ -54,7 +61,6 @@ const GenrePage = () => {
           <ChevronRight />
         </Button>
       </div>
-
       {isFetching && <div>Loading more...</div>}
     </PageContainer>
   );

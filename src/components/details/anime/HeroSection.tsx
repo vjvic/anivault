@@ -11,7 +11,6 @@ import HeroLoading from "@/components/HeroLoading";
 const HeroSection = ({ id }: { id: number }) => {
   const router = useRouter();
 
-  // Fetch Anime Data
   const { data, isLoading, isError } = useQuery<Anime | null>({
     queryKey: ["animeDetails", id],
     queryFn: () => fetchAnimeById(Number(id)),
@@ -19,7 +18,6 @@ const HeroSection = ({ id }: { id: number }) => {
 
   const anime = data;
 
-  // Loading or Error States
   if (isLoading) return <HeroLoading />;
   if (isError) return <div>Error fetching anime.</div>;
   if (!anime) return <div>Anime not found.</div>;
@@ -37,7 +35,6 @@ const HeroSection = ({ id }: { id: number }) => {
     trailer,
   } = anime;
 
-  // Redirect Handler
   const handleRedirect = (link: string) => {
     if (link.startsWith("http")) {
       window.open(link, "_blank");
