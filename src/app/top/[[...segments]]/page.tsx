@@ -8,7 +8,7 @@ import AnimeGrid from "@/components/AnimeGrid";
 import PageContainer from "@/components/PageContainer";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import GridSkeleton from "@/components/GridLoading";
+import GridLoading from "@/components/GridLoading";
 
 type AnimeSearchQueryType =
   | "tv"
@@ -54,14 +54,32 @@ const TopCategoryPage = ({ params }: { params: { segments?: string[] } }) => {
     setPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
-  if (isLoading) return <GridSkeleton />;
+  const title = (() => {
+    switch (animeType) {
+      case "movie":
+        return "Top Movies";
+      case "tv":
+        switch (animeFilter) {
+          case "airing":
+            return "Top Airing TV Shows";
+          case "bypopularity":
+            return "Most Popular TV Shows";
+          case "favorite":
+            return "Most Favorite TV Shows";
+          default:
+            return "Top TV Shows";
+        }
+      default:
+        return "Top Anime";
+    }
+  })();
+
+  if (isLoading) return <GridLoading />;
   if (isError) return <div>Error fetching anime</div>;
 
   return (
     <PageContainer>
-      <h1 className="text-2xl font-semibold mb-4">
-        Top {animeType} - {animeFilter}
-      </h1>
+      <h1 className="text-2xl font-semibold mb-4">{title}</h1>
       <AnimeGrid animes={animes} />
 
       <div className="flex justify-center items-center gap-4 mt-6">
