@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { AnimeResponse, Characters, fetchTopCharacters } from "@/lib/api";

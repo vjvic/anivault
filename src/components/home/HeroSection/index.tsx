@@ -32,7 +32,7 @@ const HeroSection = () => {
     const truncatedText =
       text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
 
-    return <div>{truncatedText}</div>;
+    return <span>{truncatedText}</span>;
   };
 
   if (isLoading) return <HeroLoading />;
