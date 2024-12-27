@@ -44,55 +44,57 @@ const HeroSection = () => {
 
   return (
     <Carousel
-      className="w-full flex flex-col items-center"
+      className="w-full"
       plugins={[
         Autoplay({
           delay: 4000,
         }),
       ]}
     >
-      <CarouselContent>
+      <CarouselContent className="relative mx-auto">
         {data?.data?.slice(0, 5).map((anime, index) => (
-          <CarouselItem key={anime.mal_id}>
-            <div className="relative">
-              <Image
-                src={anime.trailer.images.large_image_url}
-                alt={anime.title}
-                className="w-full h-[100vh] lg:h-[50vh] object-cover object-center rounded"
-                width={500}
-                height={500}
-              />
-              <div className="absolute inset-0 flex bg-black bg-opacity-60 rounded w-full h-[100vh] lg:h-[50vh]  px-4 md:px-16">
-                <div className="flex items-center container mx-auto">
-                  <div className="max-w-xl w-full">
-                    <div className="bg-primary text-primary-foreground w-[160px] text-center py-3 px-2 rounded mb-5 text-xs">
-                      #{index + 1} Most Favorite Anime
-                    </div>
-                    <h3 className="text-2xl lg:text-4xl font-bold text-white">
-                      {anime.title}
-                    </h3>
-                    <p className="text-xs lg:text-lg font-normal text-white">
-                      ({anime.title_japanese})
-                    </p>
-                    <p className="mt-5 text-white text-sm lg:text-base">
-                      <TruncatedText text={anime.synopsis} maxLength={200} />
-                    </p>
-                    <div className="flex gap-7 items-center my-5">
-                      <div className="flex gap-2 items-center">
-                        <Star /> <span>{anime.score}</span>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <Heart /> <span>{anime.favorites}</span>
-                      </div>
-                    </div>
-                    <Button
-                      className="mt-6"
-                      size="sm"
-                      onClick={() => handleNavigate(anime.mal_id)}
-                    >
-                      Show details <ChevronRight />
-                    </Button>
+          <CarouselItem
+            key={anime.mal_id}
+            style={{
+              backgroundImage: `url(${
+                anime.trailer?.images.large_image_url ||
+                "https://via.placeholder.com/500"
+              })`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          >
+            <div className="h-[50vh] " />
+            <div className="absolute inset-0 flex bg-black bg-opacity-60">
+              <div className="flex items-center container mx-auto">
+                <div className="w-[500px] lg:px-0 px-11">
+                  <div className="bg-primary text-primary-foreground w-[160px] text-center py-3 px-2 rounded mb-5 text-xs">
+                    #{index + 1} Most Favorite Anime
                   </div>
+                  <h3 className="text-2xl lg:text-4xl font-bold text-white">
+                    {anime.title}
+                  </h3>
+                  <p className="text-xs lg:text-lg font-normal text-white">
+                    ({anime.title_japanese})
+                  </p>
+                  <p className="mt-5 text-white text-sm lg:text-base">
+                    <TruncatedText text={anime.synopsis} maxLength={200} />
+                  </p>
+                  <div className="flex gap-7 items-center my-5">
+                    <div className="flex gap-2 items-center">
+                      <Star /> <span>{anime.score}</span>
+                    </div>
+                    <div className="flex gap-2 items-center">
+                      <Heart /> <span>{anime.favorites}</span>
+                    </div>
+                  </div>
+                  <Button
+                    className="mt-6"
+                    size="sm"
+                    onClick={() => handleNavigate(anime.mal_id)}
+                  >
+                    Show details <ChevronRight />
+                  </Button>
                 </div>
               </div>
             </div>
