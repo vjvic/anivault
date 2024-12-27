@@ -13,9 +13,18 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarHeader,
+  SidebarFooter,
 } from "@/components/ui/sidebar";
 import { SearchForm } from "./SearchForm";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "./ui/card";
+import Image from "next/image";
 
 const staticItems = [
   { title: "Home", url: "/" },
@@ -108,6 +117,61 @@ const AppSidebar = () => {
             )}
           </SidebarMenu>
         </SidebarGroup>
+
+        <SidebarFooter>
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-primary">AniVault</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-xs">
+                AniVault offers the best anime titles. Browse and discover anime
+                of all genres.
+              </p>
+            </CardContent>
+            <CardFooter>
+              <div>
+                <p className="text-xs">
+                  <span>Powered by </span>{" "}
+                  <Link
+                    href="https://jikan.moe/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className=" text-primary"
+                  >
+                    Jikan API
+                  </Link>
+                </p>
+                <div className="flex items-center gap-2 mt-2">
+                  <Link
+                    href="https://github.com/vjvic"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Image
+                      src="/github.svg"
+                      alt="linkedin"
+                      width={20}
+                      height={50}
+                    />
+                  </Link>
+                  <Link
+                    href="https://www.linkedin.com/in/victor-sulit-jr/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Image
+                      src="/linkedin.svg"
+                      alt="linkedin"
+                      width={20}
+                      height={50}
+                    />
+                  </Link>
+                </div>
+              </div>
+            </CardFooter>
+          </Card>
+        </SidebarFooter>
       </SidebarContent>
     </Sidebar>
   );
