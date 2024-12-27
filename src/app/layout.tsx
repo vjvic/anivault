@@ -4,6 +4,7 @@ import { Poppins } from "next/font/google";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import AppSidebar from "@/components/AppSidebar";
 import QueryProvider from "@/providers/QueryProvider";
+import ProgressProvider from "@/providers/ProgressProvider";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -26,6 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={`${poppins.variable} antialiased flex`}>
+        <ProgressProvider />
         <QueryProvider>
           <SidebarProvider>
             <div className="flex w-full min-h-screen">
