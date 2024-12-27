@@ -17,11 +17,12 @@ of all genres.
 ## Key Features
 
 - Top Anime
-- Top Airing:
+- Top Airing
 - Top Upcoming
 - Top Movies
+- Top Characters
 - Most Popular
-- Most Favorited
+- Most Favorites
 - Anime by Genre
 - Search
 - Responsive Design
