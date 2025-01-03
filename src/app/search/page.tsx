@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { AnimeResponse, fetchAnimeSearch, Anime } from "@/lib/api";
@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import GridLoading from "@/components/GridLoading";
 
-const SearchPage = () => {
+const SearchPageContent = () => {
   const searchParams = useSearchParams();
   const query = searchParams.get("q") || "";
   const [page, setPage] = useState(1);
@@ -26,13 +26,8 @@ const SearchPage = () => {
     enabled: !!query,
   });
 
-  const handleNextPage = () => {
-    setPage((prevPage) => prevPage + 1);
-  };
-
-  const handlePrevPage = () => {
-    setPage((prevPage) => Math.max(prevPage - 1, 1));
-  };
+  const handleNextPage = () => setPage((prevPage) => prevPage + 1);
+  const handlePrevPage = () => setPage((prevPage) => Math.max(prevPage - 1, 1));
 
   useEffect(() => {
     setPage(1);
@@ -41,7 +36,7 @@ const SearchPage = () => {
   if (isLoading) return <GridLoading />;
   if (isError) return <div>Error fetching anime</div>;
 
-  const validAnimes = animes ?? {
+  const animeData = animes ?? {
     data: [],
     pagination: { current_page: 1, has_next_page: false },
   };
@@ -56,7 +51,7 @@ const SearchPage = () => {
         <div className="mt-4">No results found.</div>
       )}
 
-      <AnimeGrid animes={validAnimes} />
+      <AnimeGrid animes={animeData} />
 
       <div className="flex justify-center items-center gap-4 mt-6">
         <Button disabled={page === 1} onClick={handlePrevPage}>
@@ -73,6 +68,14 @@ const SearchPage = () => {
 
       {isFetching && <div>Loading more...</div>}
     </PageContainer>
+  );
+};
+
+const SearchPage = () => {
+  return (
+    <Suspense fallback={<GridLoading />}>
+      <SearchPageContent />
+    </Suspense>
   );
 };
 
