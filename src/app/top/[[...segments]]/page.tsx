@@ -46,7 +46,6 @@ const TopCategoryPage = () => {
         filter: animeFilter,
         page: page,
       }),
-    keepPreviousData: true,
   });
 
   const handleNextPage = () => {

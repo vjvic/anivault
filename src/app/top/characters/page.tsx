@@ -20,7 +20,6 @@ const CharactersPage = () => {
   } = useQuery<AnimeResponse<Characters> | null>({
     queryKey: ["topCharacters", page],
     queryFn: () => fetchTopCharacters({ page }),
-    keepPreviousData: true,
   });
 
   console.log(characters);

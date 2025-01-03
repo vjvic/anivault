@@ -29,7 +29,6 @@ const GenrePage = () => {
     queryKey: ["animeByGenre", id, page],
     queryFn: () => getAnimeByGenres(id as string, page),
     enabled: !!id,
-    keepPreviousData: true,
   });
 
   useEffect(() => {

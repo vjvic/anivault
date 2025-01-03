@@ -24,7 +24,6 @@ const SearchPage = () => {
     queryKey: ["animeSearch", query, page],
     queryFn: () => fetchAnimeSearch({ q: query, page }),
     enabled: !!query,
-    keepPreviousData: true,
   });
 
   const handleNextPage = () => {
