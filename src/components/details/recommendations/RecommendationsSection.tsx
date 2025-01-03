@@ -1,5 +1,9 @@
 import React from "react";
-import { AnimeResponse, fetchRecommendations, Anime } from "@/lib/api";
+import {
+  AnimeResponse,
+  fetchRecommendations,
+  Recommendations,
+} from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import SectionLoading from "../SectionLoading";
@@ -12,7 +16,7 @@ const RecommendationsSection = ({ id }: { id: number }) => {
     data: recommendationList,
     isLoading,
     isError,
-  } = useQuery<AnimeResponse<Anime> | null>({
+  } = useQuery<AnimeResponse<Recommendations> | null>({
     queryKey: ["animeRecommendations", id],
     queryFn: () => fetchRecommendations(id),
   });
