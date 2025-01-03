@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import React, { Suspense, useEffect } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
@@ -24,4 +24,12 @@ const ProgressProvider = () => {
   return null;
 };
 
-export default ProgressProvider;
+const SuspenseWrapper = () => {
+  return (
+    <Suspense fallback={null}>
+      <ProgressProvider />
+    </Suspense>
+  );
+};
+
+export default SuspenseWrapper;

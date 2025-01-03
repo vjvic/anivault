@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, Suspense } from "react";
+import React, { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { AnimeResponse, fetchAnimeSearch, Anime } from "@/lib/api";
@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import GridLoading from "@/components/GridLoading";
 
-const SearchPageContent = () => {
+const SearchPage = () => {
   const searchParams = useSearchParams();
   const query = searchParams.get("q") || "";
   const [page, setPage] = useState(1);
@@ -26,8 +26,13 @@ const SearchPageContent = () => {
     enabled: !!query,
   });
 
-  const handleNextPage = () => setPage((prevPage) => prevPage + 1);
-  const handlePrevPage = () => setPage((prevPage) => Math.max(prevPage - 1, 1));
+  const handleNextPage = () => {
+    setPage((prevPage) => prevPage + 1);
+  };
+
+  const handlePrevPage = () => {
+    setPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
 
   useEffect(() => {
     setPage(1);
@@ -68,14 +73,6 @@ const SearchPageContent = () => {
 
       {isFetching && <div>Loading more...</div>}
     </PageContainer>
-  );
-};
-
-const SearchPage = () => {
-  return (
-    <Suspense fallback={<GridLoading />}>
-      <SearchPageContent />
-    </Suspense>
   );
 };
 
