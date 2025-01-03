@@ -9,6 +9,7 @@ import PageContainer from "@/components/PageContainer";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import GridLoading from "@/components/GridLoading";
+import { useParams } from "next/navigation";
 
 type AnimeSearchQueryType =
   | "tv"
@@ -23,10 +24,12 @@ type AnimeSearchQueryType =
 
 type TopAnimeFilter = "airing" | "upcoming" | "bypopularity" | "favorite";
 
-const TopCategoryPage = ({ params }: { params: { segments?: string[] } }) => {
+const TopCategoryPage = () => {
   const [page, setPage] = useState(1);
 
-  const [type = "", filter = ""] = params?.segments || [];
+  const params = useParams();
+  const [type = "", filter = ""] = params.segments || [];
+
   const animeType = (type || "") as AnimeSearchQueryType;
   const animeFilter = (filter || "") as TopAnimeFilter;
 
