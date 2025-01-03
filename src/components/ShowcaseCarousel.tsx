@@ -29,9 +29,9 @@ const ShowcaseCarousel = ({
   };
 
   return (
-    <div className="container mx-auto mt-10 px-4">
+    <div className="container mx-auto mt-10">
       <div className="flex justify-between items-center mb-3 border-l-4 border-primary pl-2">
-        <h3 className="text-2xl md:text-3xl font-semibold">{text}</h3>
+        <h3 className="text-xl lg:text-3xl font-semibold">{text}</h3>
         <Link
           href={`/top${link}`}
           className="text-primary text-sm md:text-base"
@@ -40,12 +40,12 @@ const ShowcaseCarousel = ({
         </Link>
       </div>
 
-      <Carousel className="w-full flex flex-col items-center">
+      <Carousel className="w-full flex flex-col items-center ">
         <CarouselContent>
           {data.map((anime) => (
             <CarouselItem
               key={anime.mal_id}
-              className="basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/6 flex-shrink-0 p-2"
+              className="basis-1/2 sm:basis-1/3 md:basis-1/4 lg:basis-1/6 flex-shrink-0 p-2 "
             >
               <div
                 onClick={() => handleNavigate(anime.mal_id)}

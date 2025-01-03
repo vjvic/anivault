@@ -63,7 +63,7 @@ const HeroSection = () => {
               backgroundPosition: "center",
             }}
           >
-            <div className="h-[50vh] " />
+            <div className="h-screen lg:h-[50vh]" />
             <div className="absolute inset-0 flex bg-black bg-opacity-60">
               <div className="flex items-center container mx-auto">
                 <div className="w-[500px] lg:px-0 px-11">

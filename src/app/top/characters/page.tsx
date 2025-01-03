@@ -97,7 +97,6 @@ const TopCategoryPage = () => {
           <ChevronLeft />
         </Button>
         <span>Page {page}</span>
-        {/* Next page button */}
         <Button
           disabled={!animes?.pagination.has_next_page}
           onClick={handleNextPage}
