@@ -9,7 +9,10 @@ import {
 } from "@/components/ui/carousel";
 import { Button } from "@/components/ui/button";
 import { ChevronRight, Star, Heart } from "lucide-react";
+<<<<<<< HEAD
 import Image from "next/image";
+=======
+>>>>>>> master
 import Autoplay from "embla-carousel-autoplay";
 import { AnimeResponse, Anime, fetchTopAnime } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";

@@ -45,7 +45,11 @@ const SearchPage = () => {
   return (
     <PageContainer>
       <h1 className="text-2xl font-semibold mb-4">
+<<<<<<< HEAD
         Search Results for "{query}"
+=======
+        Search Results for &quot;{query}&quot;
+>>>>>>> master
       </h1>
 
       {animes?.data.length === 0 && !isLoading && (
