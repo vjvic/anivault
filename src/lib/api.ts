@@ -96,16 +96,8 @@ const fetchData = async <T>(
   try {
     const response = await axiosInstance.get<AnimeResponse<T>>(url, { params });
     return response.data;
-<<<<<<< HEAD
-  } catch (error: any) {
-    console.error(
-      "Error fetching data:",
-      error.response?.data || error.message
-    );
-=======
   } catch (error) {
     console.error("Error fetching data:", error);
->>>>>>> master
     throw new Error("Failed to fetch data");
   }
 };

@@ -1,8 +1,4 @@
 import React from "react";
-<<<<<<< HEAD
-import Image from "next/image";
-=======
->>>>>>> master
 import Link from "next/link";
 import { AnimeResponse, Characters } from "@/lib/api";
 import CharacterGrid from "./CharacterGrid";
