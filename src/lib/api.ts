@@ -73,6 +73,18 @@ export interface CharactersAnimeDetails {
   role: string;
 }
 
+export interface Recommendations {
+  entry: {
+    mal_id: number;
+    title: string;
+    images: {
+      jpg: {
+        large_image_url: string;
+      };
+    };
+  };
+}
+
 const fetchData = async <T>(
   url: string,
   params?: Record<string, string>
@@ -132,8 +144,10 @@ export const fetchCharactersById = (
 
 export const fetchRecommendations = (
   id: number
-): Promise<AnimeResponse<Anime>> => {
-  return fetchData<Anime>(`${API_PATHS.animeById}/${id}/recommendations`);
+): Promise<AnimeResponse<Recommendations>> => {
+  return fetchData<Recommendations>(
+    `${API_PATHS.animeById}/${id}/recommendations`
+  );
 };
 
 export const fetchAnimeSearch = ({
