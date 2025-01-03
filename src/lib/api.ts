@@ -11,7 +11,7 @@ const API_PATHS = {
 
 const axiosInstance = rateLimit(
   axios.create({ baseURL: process.env.NEXT_PUBLIC_API_BASE_URL }),
-  { maxRequests: 3, perMilliseconds: 1000 }
+  { maxRequests: 1, perMilliseconds: 1000 }
 );
 
 export interface AnimeResponse<T> {
