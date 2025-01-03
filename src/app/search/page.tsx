@@ -41,6 +41,11 @@ const SearchPage = () => {
   if (isLoading) return <GridLoading />;
   if (isError) return <div>Error fetching anime</div>;
 
+  const validAnimes = animes ?? {
+    data: [],
+    pagination: { current_page: 1, has_next_page: false },
+  };
+
   return (
     <PageContainer>
       <h1 className="text-2xl font-semibold mb-4">
@@ -51,7 +56,7 @@ const SearchPage = () => {
         <div className="mt-4">No results found.</div>
       )}
 
-      <AnimeGrid animes={animes} />
+      <AnimeGrid animes={validAnimes} />
 
       <div className="flex justify-center items-center gap-4 mt-6">
         <Button disabled={page === 1} onClick={handlePrevPage}>

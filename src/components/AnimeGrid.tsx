@@ -3,7 +3,7 @@ import { Anime, AnimeResponse } from "@/lib/api";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-const AnimeGrid = ({ animes }: { animes: AnimeResponse<Anime> | null }) => {
+const AnimeGrid = ({ animes }: { animes: AnimeResponse<Anime> }) => {
   const router = useRouter();
 
   const handleNavigate = (id: number) => {

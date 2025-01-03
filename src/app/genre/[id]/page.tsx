@@ -44,10 +44,15 @@ const GenrePage = () => {
   if (isLoading) return <GridLoading />;
   if (isError) return <div>Error fetching anime by genre.</div>;
 
+  const validAnimes = animes ?? {
+    data: [],
+    pagination: { current_page: 1, has_next_page: false },
+  };
+
   return (
     <PageContainer>
       <h1 className="text-2xl font-semibold mb-4">{genreName} Anime</h1>
-      <AnimeGrid animes={animes} />
+      <AnimeGrid animes={validAnimes} />
       <div className="flex justify-center items-center gap-4 mt-6">
         <Button disabled={page === 1} onClick={handlePrevPage}>
           <ChevronLeft />

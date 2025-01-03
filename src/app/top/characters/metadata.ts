@@ -1,7 +1,7 @@
 import { fetchTopCharacters } from "@/lib/api";
 
 export async function generateMetadata() {
-  const charactersData = await fetchTopCharacters({ page: 1 });
+  const charactersData = await fetchTopCharacters(1);
 
   const characters = charactersData?.data || [];
   const totalCharacters = characters.length;

@@ -12,16 +12,21 @@ const TopCharacterSection = () => {
     isLoading,
     isError,
   } = useQuery<AnimeResponse<Characters>>({
-    queryKey: ["topCharacters"],
-    queryFn: fetchTopCharacters,
+    queryKey: ["topCharacters", 1],
+    queryFn: () => fetchTopCharacters(1),
   });
 
   if (isLoading) return <SectionLoading />;
   if (isError) return <div>Error fetching anime</div>;
 
+  const characterData = characters ?? {
+    data: [],
+    pagination: { current_page: 1, has_next_page: false },
+  };
+
   return (
     <section>
-      <ShowcaseCharacters text="Top Characters" characters={characters} />
+      <ShowcaseCharacters text="Top Characters" characters={characterData} />
     </section>
   );
 };

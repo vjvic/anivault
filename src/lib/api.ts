@@ -1,6 +1,24 @@
 import axios from "axios";
 import rateLimit from "axios-rate-limit";
 
+const API_PATHS = {
+  topAnime: "/top/anime",
+  topCharacters: "/top/characters",
+  animeById: "/anime",
+  genres: "/genres/anime",
+  searchAnime: "/anime",
+};
+
+const axiosInstance = rateLimit(
+  axios.create({ baseURL: process.env.NEXT_PUBLIC_API_BASE_URL }),
+  { maxRequests: 3, perMilliseconds: 1000 }
+);
+
+export interface AnimeResponse<T> {
+  data: T[];
+  pagination: { current_page: number; has_next_page: boolean };
+}
+
 export interface Anime {
   mal_id: number;
   title: string;
@@ -12,18 +30,18 @@ export interface Anime {
   episodes: string;
   duration: string;
   genres: Genres[];
-  images: {
-    jpg: {
-      large_image_url: string;
-    };
-  };
+  images: { jpg: { large_image_url: string } };
   trailer: {
     embed_url: string;
-    images: {
-      large_image_url: string;
-      small_image_url: string;
-    };
+    images: { large_image_url: string; small_image_url: string };
   };
+}
+
+export interface Genres {
+  mal_id: number;
+  name: string;
+  url: string;
+  count: number;
 }
 
 export interface Characters {
@@ -55,40 +73,6 @@ export interface CharactersAnimeDetails {
   role: string;
 }
 
-export interface Genres {
-  mal_id: number;
-  name: string;
-  url: string;
-  count: number;
-}
-
-export interface Recommendations {
-  entry: {
-    mal_id: number;
-    title: string;
-    images: {
-      jpg: {
-        large_image_url: string;
-      };
-    };
-  };
-}
-
-const axiosInstance = rateLimit(
-  axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
-  }),
-  { maxRequests: 1, perMilliseconds: 1000 }
-);
-
-export interface AnimeResponse<T> {
-  data: T[];
-  pagination: {
-    current_page: number;
-    has_next_page: boolean;
-  };
-}
-
 const fetchData = async <T>(
   url: string,
   params?: Record<string, string>
@@ -97,12 +81,12 @@ const fetchData = async <T>(
     const response = await axiosInstance.get<AnimeResponse<T>>(url, { params });
     return response.data;
   } catch (error) {
-    console.error("Error fetching data:", error);
-    throw new Error("Failed to fetch data");
+    console.error(`Error fetching ${url}:`, error);
+    return { data: [], pagination: { current_page: 1, has_next_page: false } };
   }
 };
 
-export const fetchTopAnime = async ({
+export const fetchTopAnime = ({
   type = "",
   filter = "",
   page = 1,
@@ -111,94 +95,67 @@ export const fetchTopAnime = async ({
   filter: string;
   page: number;
 }): Promise<AnimeResponse<Anime>> => {
-  return fetchData<Anime>(`/top/anime`, {
+  return fetchData<Anime>(API_PATHS.topAnime, {
     type,
     filter,
     page: page.toString(),
   });
 };
 
-export const fetchTopCharacters = async ({
-  page = 1,
-}: {
-  page: number;
-}): Promise<AnimeResponse<Characters>> => {
-  return fetchData<Characters>("/top/characters", { page: page.toString() });
+export const fetchTopCharacters = (
+  page = 1
+): Promise<AnimeResponse<Characters>> => {
+  return fetchData<Characters>(API_PATHS.topCharacters, {
+    page: page.toString(),
+  });
 };
 
 export const fetchAnimeById = async (id: number): Promise<Anime | null> => {
   try {
-    const response = await axiosInstance.get(`/anime/${id}/full`);
-    return response.data.data;
+    const response = await axiosInstance.get(
+      `${API_PATHS.animeById}/${id}/full`
+    );
+    return response.data.data || null;
   } catch (error) {
-    console.error("Error fetching anime by ID:", error);
+    console.error(`Error fetching anime by ID:`, error);
     return null;
   }
 };
 
-export const fetchCharactersById = async (
+export const fetchCharactersById = (
   id: number
-): Promise<AnimeResponse<CharactersAnimeDetails> | null> => {
-  try {
-    const response = await axiosInstance.get(`/anime/${id}/characters`);
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching characters by ID:", error);
-    return null;
-  }
+): Promise<AnimeResponse<CharactersAnimeDetails>> => {
+  return fetchData<CharactersAnimeDetails>(
+    `${API_PATHS.animeById}/${id}/characters`
+  );
 };
 
-export const fetchRecommendations = async (
+export const fetchRecommendations = (
   id: number
-): Promise<AnimeResponse<Recommendations> | null> => {
-  try {
-    const response = await axiosInstance.get(`/anime/${id}/recommendations`);
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching recommendations:", error);
-    return null;
-  }
+): Promise<AnimeResponse<Anime>> => {
+  return fetchData<Anime>(`${API_PATHS.animeById}/${id}/recommendations`);
 };
 
-export const fetchAnimeSearch = async ({
+export const fetchAnimeSearch = ({
   q,
   page = 1,
 }: {
   q: string;
   page?: number;
-}): Promise<AnimeResponse<Anime> | null> => {
-  try {
-    const response = await axiosInstance.get(`/anime`, {
-      params: { q, page: page.toString() },
-    });
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching anime search:", error);
-    return null;
-  }
+}): Promise<AnimeResponse<Anime>> => {
+  return fetchData<Anime>(API_PATHS.searchAnime, { q, page: page.toString() });
 };
 
-export const getGenres = async (): Promise<AnimeResponse<Genres> | null> => {
-  try {
-    const response = await axiosInstance.get(`/genres/anime`);
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching genres:", error);
-    return null;
-  }
+export const getGenres = (): Promise<AnimeResponse<Genres>> => {
+  return fetchData<Genres>(API_PATHS.genres);
 };
 
-export const getAnimeByGenres = async (
+export const getAnimeByGenres = (
   id: string,
   page: number
-): Promise<AnimeResponse<Anime> | null> => {
-  try {
-    const response = await axiosInstance.get(`/anime`, {
-      params: { genres: id, page: page.toString() },
-    });
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching anime by genres:", error);
-    return null;
-  }
+): Promise<AnimeResponse<Anime>> => {
+  return fetchData<Anime>(API_PATHS.searchAnime, {
+    genres: id,
+    page: page.toString(),
+  });
 };
